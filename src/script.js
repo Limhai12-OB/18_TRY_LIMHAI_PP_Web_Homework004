@@ -13,6 +13,8 @@ const dialog = document.getElementById("dialog");
 
 let selectedPriority = "";
 let selectedStatus = "";
+let edit = false;
+let editId = null;
 
 function displayAllTask() {
   taskBody.innerHTML = "";
@@ -28,7 +30,7 @@ function displayAllTask() {
         <p class="text-xl w-1/4 text-center font-bold" >${task.status}</p>
 
         <div class="w-1/4  flex justify-center gap-4">
-          <button >
+          <button onclick="editTask(${task.id})">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -109,42 +111,91 @@ statusBtns.forEach((btn) => {
 saveTask.addEventListener("click", () => {
   const title = inputTask.value.trim();
 
-  if (title === "" || selectedPriority === "" || selectedStatus === "") {
-    alert("Please complete all fields");
+  if (title === "") {
+    alert("Please enter a task title");
     return;
   }
 
-  const newTask = {
-    id: tasks.length + 1,
-    title: title,
-    priority: selectedPriority,
-    status: selectedStatus,
-  };
+  if (selectedPriority === "") {
+    selectedPriority = "Medium";
+  }
 
-  tasks.push(newTask);
+  if (selectedStatus === "") {
+    selectedStatus = "Progress";
+  }
+
+  if (edit) {
+    const task = tasks.find((t) => t.id === editId);
+
+    task.title = title;
+    task.priority = selectedPriority;
+    task.status = selectedStatus;
+
+    edit = false;
+    editId = null;
+  } else {
+    const newTask = {
+      id: tasks.length + 1,
+      title: title,
+      priority: selectedPriority,
+      status: selectedStatus,
+    };
+
+    tasks.push(newTask);
+  }
 
   displayAllTask();
+
   inputTask.value = "";
   selectedPriority = "";
   selectedStatus = "";
 
-  priorityBtns.forEach((b) =>
-    b.classList.remove(
-      "bg-red-400",
-      "bg-yellow-400",
-      "bg-green-400",
-      "text-white",
-    ),
-  );
-
-  statusBtns.forEach((b) => b.classList.remove("bg-cyan-400", "text-white"));
-
   dialog.close();
 });
+
 function deleteTask(id) {
   tasks = tasks.filter((task) => task.id !== id);
 
   displayAllTask();
+}
+function editTask(id) {
+  const task = tasks.find((t) => t.id === id);
+
+  edit = true;
+  editId = id;
+
+  inputTask.value = task.title;
+  selectedPriority = task.priority;
+  selectedStatus = task.status;
+
+  priorityBtns.forEach((btn) => {
+    btn.classList.remove(
+      "bg-red-500",
+      "bg-yellow-400",
+      "bg-green-500",
+      "text-white",
+    );
+
+    if (btn.textContent.trim() === task.priority) {
+      if (selectedPriority === "High") {
+        btn.classList.add("bg-red-500", "text-white");
+      } else if (selectedPriority === "Medium") {
+        btn.classList.add("bg-yellow-600", "text-white");
+      } else if (selectedPriority === "Low") {
+        btn.classList.add("bg-green-500", "text-white");
+      }
+    }
+  });
+
+  statusBtns.forEach((btn) => {
+    btn.classList.remove("bg-cyan-400", "text-white");
+
+    if (btn.textContent.trim() === task.status) {
+      btn.classList.add("bg-cyan-400", "text-white");
+    }
+  });
+
+  dialog.showModal();
 }
 
 displayAllTask();

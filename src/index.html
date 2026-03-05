@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="output.css" />
+    <title>Document</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
+      type="module"
+    ></script>
+  </head>
+  <body class="bg-blue-300">
+    <section class="mx-auto w-300 mt-50">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-5xl font-bold text-black">Task List</h2>
+
+        <button
+          command="show-modal"
+          commandfor="dialog"
+          class="bg-indigo-700 p-3 text-white text-xl rounded-xl"
+        >
+          Add Task
+        </button>
+      </div>
+      <el-dialog>
+        <dialog
+          id="dialog"
+          aria-labelledby="dialog-title"
+          class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent"
+        >
+          <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+          ></el-dialog-backdrop>
+
+          <div
+            tabindex="0"
+            class="flex min-h-full items-end justify-center p-10 text-center focus:outline-none sm:items-center sm:p-0"
+          >
+            <el-dialog-panel
+              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+            >
+              <div class="p-4">
+                <label class="font-semibold">Task</label>
+                <input
+                  id="inputTask"
+                  type="text"
+                  placeholder="Web Homework"
+                  class="w-full mt-2 mb-6 p-3 border-2 border-blue-300 rounded-xl outline-none focus:border-blue-500"
+                />
+
+                <label class="font-semibold">Priority</label>
+                <div class="flex gap-4 mt-3 mb-6">
+                  <button
+                    class="priorityBtn border-2 border-red-400 text-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    High
+                  </button>
+
+                  <button
+                    class="priorityBtn border-2 border-yellow-400 text-yellow-500 hover:bg-yellow-600 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    Medium
+                  </button>
+
+                  <button
+                    class="priorityBtn border-2 border-green-400 text-green-500 hover:bg-green-500 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    Low
+                  </button>
+                </div>
+
+                <label class="font-semibold">Status</label>
+                <div class="flex gap-4 mt-3 mb-8">
+                  <button
+                    class="statusBtn border-2 border-cyan-400 text-cyan-500 hover:bg-green-500 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    To Do
+                  </button>
+                  <button
+                    class="statusBtn border-2 border-cyan-400 text-cyan-500 hover:bg-green-500 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    Progress
+                  </button>
+                  <button
+                    class="statusBtn border-2 border-cyan-400 text-cyan-500 hover:bg-green-500 hover:text-white px-4 py-1 rounded-full"
+                  >
+                    Done
+                  </button>
+                </div>
+
+                <div class="flex justify-end">
+                  <button
+                    id="saveTask"
+                    class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-xl"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </el-dialog-panel>
+          </div>
+        </dialog>
+      </el-dialog>
+      <div>
+        <div class="bg-white rounded-xl flex justify-around">
+          <p class="text-2xl p-6 font-black text-blue-300">Task</p>
+          <p class="text-2xl p-6 font-black text-blue-300">Priority</p>
+          <p class="text-2xl p-6 font-black text-blue-300">Status</p>
+          <p class="text-2xl p-6 font-black text-yellow-500">Action</p>
+        </div>
+        <div class="">
+          <div id="taskBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
